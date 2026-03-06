@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stakent - Crypto Staking Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        background: '#0B0B0E',
+                        panel: '#15151A',
+                        primary: '#6366f1',
+                        textMain: '#FFFFFF',
+                        textMuted: '#9CA3AF',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #0B0B0E; color: white; font-family: 'Inter', sans-serif; }
+        .glass-panel { background: #15151A; border: 1px solid rgba(255, 255, 255, 0.05); }
+        .scroll-reveal { opacity: 0; transform: translateY(20px); transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+        .scroll-reveal.active { opacity: 1; transform: translateY(0); }
+        .gradient-border { position: relative; }
+        .gradient-border::before { content: ""; position: absolute; inset: -1px; border-radius: 1rem; background: linear-gradient(135deg, #6366f1, #a855f7); z-index: -1; }
+    </style>
+</head>
+<body class="min-h-screen">
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <aside class="w-64 glass-panel border-r border-gray-800 p-6 flex flex-col justify-between hidden md:flex">
+            <div>
+                <div class="flex items-center gap-2 mb-8">
+                    <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center font-bold text-lg text-white">S</div>
+                    <span class="font-bold text-xl">Stakent<sup class="text-[10px] text-gray-500">®</sup></span>
+                </div>
+                <nav class="space-y-4">
+                    <a href="#" class="flex items-center gap-3 text-white bg-white/5 p-3 rounded-xl border border-white/10"><i class="fas fa-chart-line"></i> Dashboard</a>
+                    <a href="#" class="flex items-center gap-3 text-gray-400 hover:text-white p-3 transition"><i class="fas fa-wallet"></i> Assets</a>
+                    <a href="#" class="flex items-center gap-3 text-gray-400 hover:text-white p-3 transition"><i class="fas fa-layer-group"></i> Staking Providers</a>
+                    <a href="#" class="flex items-center gap-3 text-gray-400 hover:text-white p-3 transition"><i class="fas fa-calculator"></i> Staking Calculator</a>
+                    <div class="h-px bg-gray-800 my-4"></div>
+                    <a href="#" class="flex items-center gap-3 text-gray-400 hover:text-white p-3 transition"><i class="fas fa-list"></i> Data API</a>
+                    <a href="#" class="flex items-center gap-3 text-gray-400 hover:text-white p-3 transition"><i class="fas fa-coins"></i> Liquid Staking <span class="text-[10px] bg-purple-500/20 text-purple-400 px-2 py-0.5 rounded">Beta</span></a>
+                </nav>
+            </div>
+            
+            <div class="glass-panel p-4 rounded-xl relative overflow-hidden group">
+                <div class="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-blue-500/20 opacity-0 group-hover:opacity-100 transition"></div>
+                <h4 class="text-sm font-semibold mb-1">Activate Super</h4>
+                <p class="text-[10px] text-gray-400">Unlock all features on Stakent</p>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 overflow-y-auto p-8">
+            <!-- Header -->
+            <header class="flex justify-between items-center mb-8">
+                <div class="flex items-center gap-4 bg-glass p-2 rounded-xl border border-gray-800">
+                    <img src="https://i.pravatar.cc/40" class="w-10 h-10 rounded-full" alt="User">
+                    <div>
+                        <p class="text-xs text-gray-400">@ryan997 <span class="bg-gray-700 px-1 rounded text-[8px]">PRO</span></p>
+                        <p class="font-semibold text-sm">Ryan Crawford</p>
+                    </div>
+                </div>
+                <div class="flex gap-4">
+                    <button class="bg-white/10 hover:bg-white/20 px-6 py-2 rounded-lg font-medium transition">Deposit</button>
+                    <button class="p-3 bg-white/5 rounded-lg border border-gray-800"><i class="far fa-bell"></i></button>
+                    <button class="px-4 bg-white/5 rounded-lg border border-gray-800 flex items-center gap-2">Search.. <i class="fas fa-search text-xs text-gray-500"></i></button>
+                    <button class="px-4 bg-white/5 rounded-lg border border-gray-800">Settings</button>
+                </div>
+            </header>
+
+            <!-- Top Cards -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+                <div class="col-span-2 grid grid-cols-3 gap-6">
+                    <!-- Asset Card 1 -->
+                    <div class="glass-panel p-6 rounded-2xl">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center text-xl">Ξ</div>
+                            <i class="fas fa-arrow-up-right-from-square text-gray-500"></i>
+                        </div>
+                        <h3 class="text-sm text-gray-400">Etherium (ETH)</h3>
+                        <p class="text-2xl font-bold mt-2">13.62%</p>
+                        <p class="text-green-400 text-xs mt-1"><i class="fas fa-arrow-up"></i> 6.25%</p>
+                    </div>
+                    <!-- Asset Card 2 -->
+                    <div class="glass-panel p-6 rounded-2xl">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center text-xl">⚡</div>
+                            <i class="fas fa-arrow-up-right-from-square text-gray-500"></i>
+                        </div>
+                        <h3 class="text-sm text-gray-400">BNB Chain</h3>
+                        <p class="text-2xl font-bold mt-2">12.72%</p>
+                        <p class="text-green-400 text-xs mt-1"><i class="fas fa-arrow-up"></i> 5.67%</p>
+                    </div>
+                    <!-- Asset Card 3 -->
+                    <div class="glass-panel p-6 rounded-2xl">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center text-xl">⬡</div>
+                            <i class="fas fa-arrow-up-right-from-square text-gray-500"></i>
+                        </div>
+                        <h3 class="text-sm text-gray-400">Polygon (Matic)</h3>
+                        <p class="text-2xl font-bold mt-2">6.29%</p>
+                        <p class="text-red-400 text-xs mt-1"><i class="fas fa-arrow-down"></i> 1.89%</p>
+                    </div>
+                </div>
+
+                <!-- Portfolio Card -->
+                <div class="bg-gradient-to-b from-indigo-900/50 to-purple-900/50 p-6 rounded-2xl border border-indigo-500/20">
+                    <h3 class="font-bold text-lg">Liquid Staking Portfolio</h3>
+                    <p class="text-xs text-gray-300 mt-2">An all-in-one portfolio that helps you make smarter investments in Ethereum Liquid Staking</p>
+                    <button class="w-full mt-6 bg-white text-black py-3 rounded-xl font-semibold text-sm">Connect with Wallet</button>
+                    <button class="w-full mt-3 bg-white/10 py-3 rounded-xl font-semibold text-sm">Enter a Wallet Address</button>
+                </div>
+            </div>
+
+            <!-- Active Staking -->
+            <div class="glass-panel p-8 rounded-3xl">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-bold">Your active stakings</h2>
+                    <div class="flex gap-4">
+                        <button><i class="fas fa-chart-line"></i></button>
+                        <button><i class="fas fa-plus"></i></button>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <p class="text-xs text-gray-400">Stake Avalance (AVAX) <i class="fas fa-link ml-2"></i></p>
+                        <h1 class="text-6xl font-bold mt-4">31.39686</h1>
+                        <div class="flex gap-4 mt-6">
+                            <button class="bg-indigo-600 px-6 py-2 rounded-lg font-medium">Upgrade</button>
+                            <button class="bg-white/10 px-6 py-2 rounded-lg font-medium">Unstake</button>
+                        </div>
+                    </div>
+                    <div class="glass-panel p-6 rounded-2xl">
+                        <h4 class="text-sm text-gray-400">Investment Period</h4>
+                        <div class="mt-8 h-1 bg-gray-800 rounded-full relative">
+                            <div class="absolute -top-1 left-1/2 w-4 h-4 bg-white rounded-full shadow-lg"></div>
+                        </div>
+                        <div class="flex justify-between mt-2 text-xs text-gray-500">
+                            <span>4 Month</span>
+                            <span>6 Month</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Simple intersection observer for reveal effect
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('active');
+            });
+        });
+        document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>
